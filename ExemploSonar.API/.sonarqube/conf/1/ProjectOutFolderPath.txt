@@ -1,0 +1,1 @@
+C:\Users\Vaivoa\vaivoa-workspace\ExemploSonar.API\.sonarqube\out\1
