@@ -17,7 +17,7 @@ O objetivo desse projeto é apresentar uma breve introdução sobre o SonarQube,
 
 ### Ambiente
 
-É possível configurar o sonarqube sem necessariamente instalá-lo, utilizando o Docker. Dessa forma, basta clonar ou copiar o arquivo [docker-compose.yml]():
+É possível configurar o sonarqube sem necessariamente instalá-lo, utilizando o Docker. Dessa forma, basta clonar ou copiar o arquivo [docker-compose.yml](https://github.com/ingridglima/sonarqube-project/blob/main/docker-compose.yml):
 
 > Obs.: É necessário possuir o [JDK(Java Development Kit) 11](https://www.oracle.com/br/java/technologies/javase/jdk11-archive-downloads.html)  instalado!
 
@@ -66,7 +66,13 @@ E então executar o seguinte comando:
  docker-compose up -d
  ```
  
-Após conferir que os containers estão rodando correntamente, abra o seu navegador no endereço http://localhost:9000 e realize o login com as seguintes credenciais:
+ Caso não receba a seguinte saída:
+ 
+ ![sonarrodando](https://user-images.githubusercontent.com/95044629/143968246-5875eb20-c960-4b04-9d5b-7630260ac3e8.PNG)
+
+Aqui está um recurso que pode te ajudar: https://github.com/bitnami/bitnami-docker-sonarqube/issues/40 
+ 
+Após conferir que os containers estão rodando corretamente, abra o seu navegador no endereço http://localhost:9000 e realize o login com as seguintes credenciais:
  
 > Login: `admin`
 > Password: `bitnami`
@@ -74,15 +80,40 @@ Após conferir que os containers estão rodando correntamente, abra o seu navega
 
 ### Colocando em Prática
 
+#### _Configurando o Sonar_
+
+Quando realizar login, você verá a seguinte tela:
+
+![telaInicial](https://user-images.githubusercontent.com/95044629/143965843-09d14a97-d59a-4426-a4ab-a2e4a9603387.PNG)
+
+Como estamos testando localmente, selecione a seguinte opção:
+
+![criandoprojetomanual](https://user-images.githubusercontent.com/95044629/143965573-fddf216a-976a-4070-8671-a0e00f0ddbf9.PNG)
+
+Insira o nome do projeto, assim como a chave, que desejar:
+
+![criandoprojeto](https://user-images.githubusercontent.com/95044629/143965507-b97aae31-64d1-421b-9b53-42880374b450.PNG)
+
+Selecione "Set Up" e então selecione a seguinte opção:
+
+![criandoprojeto2](https://user-images.githubusercontent.com/95044629/143965534-4ed6bf62-f6af-4573-8ddb-cb4b00ed9ecd.PNG)
+
+Informe a chave que desejar, e então selecione "Generate":
+
+![gerandotoken](https://user-images.githubusercontent.com/95044629/143967021-a9cc4027-db10-44e5-980f-d10c357c9c30.PNG)
+
+Utilizando o bloco de notas copie o token gerado, pois será utilizado posteriormente.
+
+![gerandotoken2](https://user-images.githubusercontent.com/95044629/143967017-3e1e7ecc-4cf2-413b-b303-006d353385e9.PNG)
+
+#### _Conectando o Sonar ao Projeto_
+
 Quanto ao SonarQube, para o .NET Core, existe uma tool nativa, que pode ser instalada através do seguinte comando:
 
 ```sh
 dotnet tool install --global dotnet-sonarscanner
 ```
-
->PS: colocar as imagens de como criou o projeto no Sonar
-
-Quando finalizar a configuração do projeto, abra o terminal e navege até a pasta onde se encontra o arquivo .sln do seu projeto e execute os seguintes comandos:
+Após finalizada a instalação, abra o terminal e navege até a pasta onde se encontra o arquivo .sln do seu projeto e execute os seguintes comandos:
 
 ```sh
 dotnet sonarscanner begin /d:sonar.login=TOKEN_GERADO /k:”sonar-pdi-key”
@@ -91,10 +122,27 @@ dotnet build
 
 dotnet sonarscanner end /d:sonar.login=TOKEN_GERADO”
 ```
-> ps: colocar fotos de que o build foi bem sucedido e tals
 
-Por fim, é só navegar de volta até o dashboard do SonarQube e lá estarão os resultados da análise de seu código.
+Você deverá obter saídas como:
+![comandos1](https://user-images.githubusercontent.com/95044629/143967922-9244c78c-810a-42ed-ba3b-816912f77ce6.PNG)
+![comandos2](https://user-images.githubusercontent.com/95044629/143967920-273d5743-afb4-4056-b7e9-50b848b5b080.PNG)
+![comandos3](https://user-images.githubusercontent.com/95044629/143967917-c83aba87-9be7-47a7-88d4-8bd16c041e33.PNG)
+![comandos4](https://user-images.githubusercontent.com/95044629/143967924-8b62ed61-a799-4cfb-93b2-125f6e750162.PNG)
+![comandos5](https://user-images.githubusercontent.com/95044629/143967923-edfc8425-b5eb-4f55-9745-d376450e9d2f.PNG)
 
-> ps: print do dashboard, com explicações
+Por fim, navegue até a página inicial do SonarQube, acesse a seção de "Projects" e poderá visualizar um breve resultado da análise de seu projeto:
 
-## _Integração com o Github_
+![dashboardsonar](https://user-images.githubusercontent.com/95044629/143968520-39e433cb-2545-4067-98ed-8cd1d2e3e3ef.PNG)
+
+Se quiser mais detalhes sobre essa análise, selecione o projeto e navegue entre as abas:
+![estadodequalidade](https://user-images.githubusercontent.com/95044629/143968684-d572dbe7-45c9-4fa7-9c9e-89acf7f8cff5.PNG)
+
+
+Como, por exemplo, a aba de "Issues":
+![dashboardissue](https://user-images.githubusercontent.com/95044629/143968683-b964abf0-cc0e-40ee-8267-97c9ddaa280f.PNG)
+
+
+### Conclusão
+
+Com o aumento da importância de uma prática de código limpo, para fins de aumento da produtividade e a diminuição de retrabalhos, bem como bugs encontrados devido a
+falta de padrões em código. Ferramentas como o SonarQube acabam se tornando cada vez mais importantes e essenciais na vida dos desenvolvedores de código, uma vez que geram cada vez mais valor dentro da área de desenvolvimento e para seus clientes.
